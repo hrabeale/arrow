@@ -137,10 +137,15 @@ class BitReader {
   template <typename T>
   bool GetAligned(int num_bytes, T* v);
 
-  /// Reads a vlq encoded int from the stream.  The encoded int must start at
+  /// Reads a vlq encoded int from the stream. The encoded int must start at
   /// the beginning of a byte. Return false if there were not enough bytes in
   /// the buffer.
   bool GetVlqInt(int32_t* v);
+  
+  /// Reads a vlq encoded unsigned int from the stream. The encoded unsigned int must start
+  /// at the beginning of a byte. Return false if there were not enough bytes in
+  /// the buffer.
+  bool GetVlqUint(uint32_t* v);
 
   // Reads a zigzag encoded int `into` v.
   bool GetZigZagVlqInt(int32_t* v);
@@ -387,6 +392,13 @@ inline bool BitReader::GetVlqInt(int32_t* v) {
     DCHECK_LE(++num_bytes, MAX_VLQ_BYTE_LEN);
   } while ((byte & 0x80) != 0);
   return true;
+}
+
+inline bool BitReader::GetVlqUint(uint32_t* v) {
+  int v_int = 0;
+  bool result = this->GetVlqInt(&v_int);
+  *v = v_int;
+  return result;
 }
 
 inline bool BitWriter::PutZigZagVlqInt(int32_t v) {

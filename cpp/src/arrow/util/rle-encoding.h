@@ -423,10 +423,10 @@ inline int RleDecoder::GetBatchWithDictSpaced(const T* dictionary, T* values,
 
 template <typename T>
 bool RleDecoder::NextCounts() {
-  // Read the next run's indicator int, it could be a literal or repeated run.
-  // The int is encoded as a vlq-encoded value.
-  int32_t indicator_value = 0;
-  bool result = bit_reader_.GetVlqInt(&indicator_value);
+  // Read the next run's indicator uint, it could be a literal or repeated run.
+  // The uint is encoded as a vlq-encoded value.
+  uint32_t indicator_value = 0;
+  bool result = bit_reader_.GetVlqUint(&indicator_value);
   if (!result) return false;
 
   // lsb indicates if it is a literal run or repeated run
