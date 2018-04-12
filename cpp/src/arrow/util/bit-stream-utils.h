@@ -395,9 +395,9 @@ inline bool BitReader::GetVlqInt(int32_t* v) {
 }
 
 inline bool BitReader::GetVlqUint(uint32_t* v) {
-  int v_int = 0;
-  bool result = this->GetVlqInt(&v_int);
-  *v = v_int;
+  int v_signed = 0;
+  bool result = this->GetVlqInt(&v_signed);
+  *v = v_signed;
   return result;
 }
 
